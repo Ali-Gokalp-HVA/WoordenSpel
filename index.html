@@ -67,8 +67,8 @@
         </div>
 
         <div class="category-selection" id="category-selection" style="display: none;">
-            <button class="btn" id="animals-btn" onclick="startGame('animals')">Animals</button>
-            <button class="btn" id="countries-btn" onclick="startGame('countries')">Countries</button>
+            <button class="btn" id="animals-btn" onclick="startGame('animals')" data-lang="en">Animals</button>
+            <button class="btn" id="countries-btn" onclick="startGame('countries')" data-lang="en">Countries</button>
         </div>
 
         <div class="game-area" id="game-area">
@@ -84,12 +84,11 @@
 <script>
 const data = {
     english: {
-        animals: ["Alligator", "Antelope", "Armadillo"],
-        countries: ["Afghanistan", "Albania", "Algeria"]
+        animals: ["Alligator", "Antelope", "Armadillo", "Axolotl", "Baboon", "Bat", "Bear", "Bison", "Bluebird", "Camel", "Cheetah", "Chimpanzee", "Cobra", "Cougar", "Deer", "Dolphin", "Donkey", "Dragonfly", "Duck", "Eagle", "Earthworm", "Eel", "Elephant", "Elk", "Falcon", "Ferret", "Flamingo", "Fox", "Frog", "Gazelle", "Gecko", "Giraffe", "Goat", "Gorilla", "Hamster", "Hare", "Hawk", "Hedgehog", "Horse", "Ibex", "Ibis", "Indian Star Tortoise", "Indian Cobra", "Jackal", "Jaguar", "Jay", "Jellyfish", "Kangaroo", "Kingfisher", "Kiwi", "Koala", "Ladybug", "Leopard", "Lion", "Llama", "Lynx", "Macaw", "Magpie", "Manatee", "Meerkat", "Moose", "Narwhal", "Newt", "Nightingale", "Octopus", "Okapi", "Orangutan", "Osprey", "Otter", "Panda", "Panther", "Parrot", "Peacock", "Penguin", "Quail", "Quokka", "Quetzal", "Rabbit", "Raccoon", "Ram", "Rat", "Rhino", "Salamander", "Scorpion", "Seahorse", "Shark", "Sloth", "Tamarin", "Tapir", "Tarantula", "Tiger", "Tortoise", "Urchin", "Upland Sandpiper", "Viper", "Vulture", "Walrus", "Warthog", "Weasel", "Whale", "Wolf", "X-ray Tetra", "Yak", "Yellowjacket", "Zebra", "Zebu"],
+        countries: ["Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Argentina", "Armenia", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bhutan", "Bolivia", "Bosnia", "Botswana", "Brazil", "Brunei", "Bulgaria", "Burkina Faso", "Burundi", "Cambodia", "Cameroon", "Canada", "Cape Verde", "Chad", "Chile", "China", "Colombia", "Comoros", "Congo", "Croatia", "Cuba", "Cyprus", "Czech Republic", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Eswatini", "Ethiopia", "Fiji", "Finland", "France", "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Greece", "Greenland", "Grenada", "Guatemala", "Guinea", "Guyana", "Haiti", "Honduras", "Hungary", "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Israel", "Italy", "Jamaica", "Japan", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Kosovo", "Kuwait", "Kyrgyzstan", "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Mexico", "Moldova", "Monaco", "Mongolia", "Morocco", "Mozambique", "Myanmar", "Namibia", "Nauru", "Nepal", "Netherlands", "New Zealand", "Nicaragua", "Niger", "Nigeria", "North Korea", "North Macedonia", "Norway", "Oman", "Pakistan", "Palau", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Poland", "Portugal", "Qatar", "Romania", "Russia", "Rwanda", "Saint Kitts and Nevis", "Saint Lucia", "Saint Vincent", "Samoa", "San Marino", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Singapore", "Slovakia", "Slovenia", "Somalia", "South Africa", "South Korea", "Spain", "Sri Lanka", "Sudan", "Suriname", "Sweden", "Switzerland", "Syria", "Taiwan", "Tajikistan", "Tanzania", "Thailand", "Togo", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Tuvalu", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States", "Uruguay", "Uzbekistan", "Vanuatu", "Vatican City", "Venezuela", "Vietnam", "Wales", "Yemen", "Zambia", "Zimbabwe"]
     },
     dutch: {
-        animals: ["Alligator", "Antilope", "Gordeldier"],
-        countries: ["Afghanistan", "Albanië", "Algerije"]
+        animals: ["Alligator", "Antilope", "Gordeldier", "Axolotl", "Baviaan", "Vleermuis", "Beer", "Bizon", "Blauwe gaai", "Kameel", "Jachtluipaard", "Chimpansee", "Cobra", "Poema", "Hert", "Dolfijn", "Ezel", "Libel", "Eend", "Adelaar", "Regenworm", "Paling", "Olifant", "Eland", "Valk", "Fret", "Flamingo", "Vos", "Kikker", "Gazelle", "Gekko", "Giraffe", "Geit", "Gorilla", "Hamster", "Haas", "Havik", "Egel", "Paard", "Steenbok", "Ibis", "Indische Sterrenschildpad", "Indische Cobra", "Jakhals", "Jaguar", "Vlaamse gaai", "Kwal", "Kangoeroe", "IJsvogel", "Kiwi", "Koala", "Lieveheersbeestje", "Luipaard", "Leeuw", "Lama", "Lynx", "Ara", "Ekster", "Zeekoe", "Stokstaartje", "Eland", "Narwal", "Salamander", "Nachtegaal", "Octopus", "Okapi", "Orang-oetan", "Visarend", "Otter", "Panda", "Panter", "Papegaai", "Pauw", "Pinguïn", "Kwartel", "Quokka", "Quetzal", "Konijn", "Wasbeer", "Ram", "Rat", "Neushoorn", "Salamander", "Schorpioen", "Zeepaardje", "Haai", "Luiaard", "Tamarin", "Tapir", "Vogelspin", "Tijger", "Landschildpad", "Zee-egel", "Upland Snip", "Adder", "Gier", "Walrus", "Wrattenzwijn", "Wezel", "Walvis", "Wolf", "X-ray Tetra", "Jak", "Gele wesp", "Zebra", "Zeboe"]
     }
 };
 
@@ -110,8 +109,6 @@ function updateInfo() {
 }
 
 function chooseLanguage(language) {
-    selectedLanguage = language;
-
     const animalsBtn = document.getElementById('animals-btn');
     const countriesBtn = document.getElementById('countries-btn');
 
@@ -122,45 +119,62 @@ function chooseLanguage(language) {
         animalsBtn.textContent = 'Animals';
         countriesBtn.textContent = 'Countries';
     }
-
+    selectedLanguage = language;
     document.getElementById("language-selection").style.display = "none";
     document.getElementById("category-selection").style.display = "block";
 }
 
 function startGame(category) {
     selectedCategory = category;
-    const validWords = [...data[selectedLanguage][selectedCategory]].sort(() => Math.random() - 0.5);
-    currentWord = validWords[Math.floor(Math.random() * validWords.length)];
-    document.getElementById("word-display").textContent = `AI: ${currentWord}`;
+    selectedWords = [...data[selectedLanguage][selectedCategory]].sort(() => Math.random() - 0.5); // Shuffle list to avoid fixed order
+    selectedCategory = category;
     document.getElementById("category-selection").style.display = "none";
     document.getElementById("game-area").style.display = "block";
+
+    const validWords = [...data[selectedLanguage][selectedCategory]].sort(() => Math.random() - 0.5);
+    currentWord = validWords[Math.floor(Math.random() * validWords.length)];
+    data[selectedLanguage][selectedCategory] = validWords; // Store the shuffled list
+
+    document.getElementById("word-display").textContent = `AI: ${currentWord}`;
     updateInfo();
+    isProcessing = false;
 }
 
+let isProcessing = false;
+
 function submitWord() {
+    if (isProcessing) return; // Prevent double-click issues
+    isProcessing = true;
     const playerInput = document.getElementById("player-input").value.trim();
     if (!playerInput) return;
 
-    const validWords = data[selectedLanguage][selectedCategory];
+    const validWords = selectedWords;
 
-    if (!validWords.includes(playerInput)) {
+    // Check if player's word is valid and starts with the correct letter
+    const playerWordIndex = validWords.findIndex(word => word.toLowerCase() === playerInput.toLowerCase());
+    if (playerWordIndex === -1) {
         alert("That word is not in the list. Try again!");
         return;
     }
 
     if (playerInput[0].toLowerCase() !== currentWord.slice(-1).toLowerCase()) {
         alert("Your word must start with the last letter of the previous word!");
-        streak = 0;
+        streak = 0; // Reset streak on mistake
         document.getElementById("player-input").value = "";
         updateInfo();
         return;
     }
 
-    const nextWords = validWords.filter(word => word[0].toLowerCase() === playerInput.slice(-1).toLowerCase());
-    if (nextWords.length > 0) {
-        currentWord = nextWords[Math.floor(Math.random() * nextWords.length)];
-        document.getElementById("word-display").textContent = `AI: ${currentWord}`;
+    // Remove player's word from the list and continue the game
+    selectedWords.splice(playerWordIndex, 1);
+
+    const aiWordIndex = validWords.findIndex(word => word[0].toLowerCase() === playerInput.slice(-1).toLowerCase());
+    if (aiWordIndex !== -1) {
+        const aiWord = validWords[aiWordIndex];
+        currentWord = aiWord;
         streak++;
+        selectedWords.splice(aiWordIndex, 1); // Remove AI's word from pool
+        document.getElementById("word-display").textContent = `AI: ${aiWord}`;
     } else {
         alert("AI can't find a matching word. You win!");
     }
@@ -193,3 +207,4 @@ function goHome() {
 </script>
 </body>
 </html>
+
