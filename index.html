@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Word Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f2f5;
+            margin: 0;
+        }
+        .container {
+            background: #ffffff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+        }
+        h1 {
+            font-size: 24px;
+        }
+        .btn {
+            background: #4CAF50;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 5px;
+            width: 100%;
+            transition: background 0.3s ease;
+        }
+        .btn:hover {
+            background: #45a049;
+        }
+        .game-area {
+            display: none;
+            margin-top: 20px;
+        }
+        .word-display, .info {
+            margin-top: 10px;
+            padding: 10px;
+            background: #e0f7fa;
+            border: 2px solid #4CAF50;
+            border-radius: 8px;
+        }
+        input[type="text"] {
+            width: 90%;
+            padding: 10px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>AI Word Game</h1>
+        <div class="language-selection" id="language-selection">
+            <button class="btn" style="background: #00247D; color: #fff; border: 2px solid #00247D;" onclick="chooseLanguage('english')">English</button>
+            <button class="btn" style="background: #FF6600; color: #fff; border: 2px solid #FF6600;" onclick="chooseLanguage('dutch')">Nederlands</button>
+        </div>
+
+        <div class="category-selection" id="category-selection" style="display: none;">
+            <button class="btn" id="animals-btn" onclick="startGame('animals')">Animals</button>
+            <button class="btn" id="countries-btn" onclick="startGame('countries')">Countries</button>
+        </div>
+
+        <div class="game-area" id="game-area">
+            <div class="info" id="info">Words Remaining: 0 | Streak: 0 | Hints Left: 3</div>
+            <div class="word-display" id="word-display">AI: Start a word!</div>
+            <input type="text" id="player-input" placeholder="Your word..." onkeypress="if(event.key === 'Enter') submitWord()">
+            <button class="btn" onclick="submitWord()">Enter</button>
+            <button class="btn" onclick="useHint()">Hint</button>
+            <button class="btn" onclick="goHome()">Home</button>
+        </div>
+    </div>
+
+<script>
+const data = {
+    english: {
+        animals: ["Alligator", "Antelope", "Armadillo"],
+        countries: ["Afghanistan", "Albania", "Algeria"]
+    },
+    dutch: {
+        animals: ["Alligator", "Antilope", "Gordeldier"],
+        countries: ["Afghanistan", "Albanië", "Algerije"]
+    }
+};
+
+let selectedLanguage = "english";
+let selectedCategory = "animals";
+let currentWord = "";
+let streak = 0;
+let hintsLeft = 3;
+
+function getTotalWordsRemaining() {
+    return data[selectedLanguage][selectedCategory].length;
+}
+
+function updateInfo() {
+    const wordsLabel = selectedLanguage === 'dutch' ? 'Woorden over' : 'Words Remaining';
+    const hintsLabel = selectedLanguage === 'dutch' ? 'Hints over' : 'Hints Left';
+    document.getElementById("info").textContent = `${wordsLabel}: ${getTotalWordsRemaining()} | Streak: ${streak} | ${hintsLabel}: ${hintsLeft}`;
+}
+
+function chooseLanguage(language) {
+    selectedLanguage = language;
+
+    const animalsBtn = document.getElementById('animals-btn');
+    const countriesBtn = document.getElementById('countries-btn');
+
+    if (language === 'dutch') {
+        animalsBtn.textContent = 'Dieren';
+        countriesBtn.textContent = 'Landen';
+    } else {
+        animalsBtn.textContent = 'Animals';
+        countriesBtn.textContent = 'Countries';
+    }
+
+    document.getElementById("language-selection").style.display = "none";
+    document.getElementById("category-selection").style.display = "block";
+}
+
+function startGame(category) {
+    selectedCategory = category;
+    const validWords = [...data[selectedLanguage][selectedCategory]].sort(() => Math.random() - 0.5);
+    currentWord = validWords[Math.floor(Math.random() * validWords.length)];
+    document.getElementById("word-display").textContent = `AI: ${currentWord}`;
+    document.getElementById("category-selection").style.display = "none";
+    document.getElementById("game-area").style.display = "block";
+    updateInfo();
+}
+
+function submitWord() {
+    const playerInput = document.getElementById("player-input").value.trim();
+    if (!playerInput) return;
+
+    const validWords = data[selectedLanguage][selectedCategory];
+
+    if (!validWords.includes(playerInput)) {
+        alert("That word is not in the list. Try again!");
+        return;
+    }
+
+    if (playerInput[0].toLowerCase() !== currentWord.slice(-1).toLowerCase()) {
+        alert("Your word must start with the last letter of the previous word!");
+        streak = 0;
+        document.getElementById("player-input").value = "";
+        updateInfo();
+        return;
+    }
+
+    const nextWords = validWords.filter(word => word[0].toLowerCase() === playerInput.slice(-1).toLowerCase());
+    if (nextWords.length > 0) {
+        currentWord = nextWords[Math.floor(Math.random() * nextWords.length)];
+        document.getElementById("word-display").textContent = `AI: ${currentWord}`;
+        streak++;
+    } else {
+        alert("AI can't find a matching word. You win!");
+    }
+
+    document.getElementById("player-input").value = "";
+    updateInfo();
+}
+
+function useHint() {
+    if (hintsLeft > 0) {
+        const validWords = data[selectedLanguage][selectedCategory].filter(word => word[0].toLowerCase() === currentWord.slice(-1).toLowerCase());
+        if (validWords.length > 0) {
+            const hintWord = validWords[Math.floor(Math.random() * validWords.length)];
+            alert(`Hint: Starts with '${hintWord.slice(0, 2)}...'`);
+            hintsLeft--;
+        } else {
+            alert("No hints available for this letter.");
+        }
+        updateInfo();
+    } else {
+        alert("No hints remaining!");
+    }
+}
+
+function goHome() {
+    document.getElementById("game-area").style.display = "none";
+    document.getElementById("category-selection").style.display = "none";
+    document.getElementById("language-selection").style.display = "block";
+}
+</script>
+</body>
+</html>
